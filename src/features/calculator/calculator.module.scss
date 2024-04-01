@@ -1,0 +1,20 @@
+.wrapper {
+   width: 18.75rem;
+   height: 12.5rem;
+   display: flex;
+   flex-direction: column;
+}
+
+.screen {
+   background-color: black;
+}
+
+.buttons {
+   display: grid;
+   grid-template-columns: repeat(4, 1fr);
+   gap: 0.25rem;
+}
+
+.twoCol {
+   grid-column: 1 / 3;
+}
