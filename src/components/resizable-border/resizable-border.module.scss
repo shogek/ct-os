@@ -1,0 +1,14 @@
+.resizableBorder {
+   width: fit-content;
+   border: 2px solid white;
+
+   &._hover {
+      border-color: red;
+      cursor: col-resize;
+   }
+
+   &._active {
+      border-color: greenyellow;
+      cursor: col-resize;
+   }
+}

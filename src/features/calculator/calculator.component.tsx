@@ -1,5 +1,7 @@
 import { useState, MouseEvent } from 'react'
+import { ResizableBorder } from '../../components/resizable-border/resizable-border.component'
 import s from './calculator.module.scss'
+import { AppHeader } from '../../components/app-header/app-header.component'
 
 export function Calculator() {
    const [screen, setScreen] = useState('')
@@ -21,30 +23,35 @@ export function Calculator() {
    }
 
    return (
-      <div className={s.wrapper}>
-         <div className={s.screen}>{screen}</div>
-         <div className={s.buttons}>
-            <button onClick={handleDigitClick}>7</button>
-            <button onClick={handleDigitClick}>8</button>
-            <button onClick={handleDigitClick}>9</button>
-            <button onClick={handleSymbolClick}>×</button>
+      <ResizableBorder>
+         <AppHeader title="Calculator">
+            <div className={s.wrapper}>
+               <div className={s.screen}>{screen}</div>
 
-            <button onClick={handleDigitClick}>4</button>
-            <button onClick={handleDigitClick}>5</button>
-            <button onClick={handleDigitClick}>6</button>
-            <button onClick={handleSymbolClick}>-</button>
+               <div className={s.buttons}>
+                  <button onClick={handleDigitClick}>7</button>
+                  <button onClick={handleDigitClick}>8</button>
+                  <button onClick={handleDigitClick}>9</button>
+                  <button onClick={handleSymbolClick}>×</button>
 
-            <button onClick={handleDigitClick}>1</button>
-            <button onClick={handleDigitClick}>2</button>
-            <button onClick={handleDigitClick}>3</button>
-            <button onClick={handleSymbolClick}>+</button>
+                  <button onClick={handleDigitClick}>4</button>
+                  <button onClick={handleDigitClick}>5</button>
+                  <button onClick={handleDigitClick}>6</button>
+                  <button onClick={handleSymbolClick}>-</button>
 
-            <button className={s.twoCol} onClick={handleDigitClick}>
-               0
-            </button>
-            <button onClick={handleSymbolClick}>.</button>
-            <button onClick={handleEqualsClick}>=</button>
-         </div>
-      </div>
+                  <button onClick={handleDigitClick}>1</button>
+                  <button onClick={handleDigitClick}>2</button>
+                  <button onClick={handleDigitClick}>3</button>
+                  <button onClick={handleSymbolClick}>+</button>
+
+                  <button className={s.twoCol} onClick={handleDigitClick}>
+                     0
+                  </button>
+                  <button onClick={handleSymbolClick}>.</button>
+                  <button onClick={handleEqualsClick}>=</button>
+               </div>
+            </div>
+         </AppHeader>
+      </ResizableBorder>
    )
 }
