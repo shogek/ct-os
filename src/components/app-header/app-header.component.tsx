@@ -1,34 +1,58 @@
-import { PropsWithChildren, useCallback, useEffect, useState } from 'react'
+import { MouseEventHandler, PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import s from './app-header.module.scss'
 
-export function AppHeader(props: PropsWithChildren<{ title: string }>) {
-   const [isClicked, setIsClicked] = useState(false)
-   const [position, setPosition] = useState({ top: '100px', left: '100px' })
+type Coords = {
+   top: number
+   left: number
+}
 
-   const handleOnMouseMove = useCallback((e: MouseEvent) => {
-      console.log(e)
-      setPosition({ top: e.clientY + 'px', left: e.clientX + 'px' })
+export function AppHeader(props: PropsWithChildren<{ title: string }>) {
+   const [clickCoords, setClickCoords] = useState<Coords | null>(null)
+   const [position, setPosition] = useState<Coords>({ top: 100, left: 300 })
+
+   const handleOnMouseMove = useCallback(
+      (e: MouseEvent) => {
+         if (!clickCoords) {
+            return
+         }
+
+         // TODO: Document me better
+         const topDifference = e.clientY - clickCoords.top
+         const leftDifference = e.clientX - clickCoords.left
+
+         setPosition({ top: position.top + topDifference, left: position.left + leftDifference })
+      },
+      [clickCoords],
+   )
+
+   const handleMouseUp = useCallback(() => {
+      console.log('onMouseUp')
+      setClickCoords(null)
    }, [])
 
+   // TODO: Mouse up doesn't stop dragging
    useEffect(() => {
-      if (!isClicked) {
+      if (!clickCoords) {
          document.removeEventListener('mousemove', handleOnMouseMove)
+         document.removeEventListener('mouseup', handleMouseUp)
          return
       }
 
       document.addEventListener('mousemove', handleOnMouseMove)
-   }, [isClicked])
+      document.addEventListener('mouseup', handleMouseUp)
+   }, [clickCoords])
 
    return (
       <div className={s.appHeader} style={{ top: position.top, left: position.left }}>
          <div
-            onMouseDown={() => {
+            onMouseDown={(e: any) => {
                console.log('onMouseDown')
-               setIsClicked(true)
+               console.log(e)
+               setClickCoords({ top: e.clientY, left: e.clientX })
             }}
             onMouseUp={() => {
                console.log('onMouseUp')
-               setIsClicked(false)
+               setClickCoords(null)
             }}
          >
             <span className={s.title}>{props.title}</span>
