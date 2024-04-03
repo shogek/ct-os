@@ -3,7 +3,19 @@
    position: absolute;
    top: 50px;
    left: 50px;
-   border: 1px solid white;
+   border: 10px solid white;
+
+   &._clicked {
+      border-color: aqua;
+   }
+
+   &._hovered {
+      border-color: yellow;
+   }
+
+   &._resized {
+      border-color: greenyellow;
+   }
 
    .title {
       width: 100%;
