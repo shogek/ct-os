@@ -7,6 +7,7 @@ type Coords = {
 
 export function useResizing(props: { elToResize: RefObject<HTMLElement> }) {
    const [isClicked, setIsClicked] = useState(false)
+   const [isHovered, setIsHovered] = useState(false)
    const [distanceResized, setDistanceResized] = useState({ horizontally: 0, vertically: 0 })
    const lastClickRef = useRef<Coords>({ clientX: 0, clientY: 0 })
 
@@ -16,11 +17,25 @@ export function useResizing(props: { elToResize: RefObject<HTMLElement> }) {
          return
       }
 
+      // TODO: Explain me
       if (e.target.contains(props.elToResize.current)) {
          setIsClicked(true)
          lastClickRef.current = { clientX: e.clientX, clientY: e.clientY }
       } else {
          setIsClicked(false)
+      }
+   }, [])
+
+   // TODO: Check if `useCallback` really necessary
+   const handleBorderMouseOver = useCallback((e: MouseEvent) => {
+      if (!e.target) {
+         return
+      }
+
+      if (e.target.contains(props.elToResize.current)) {
+         setIsHovered(true)
+      } else {
+         setIsHovered(false)
       }
    }, [])
 
@@ -64,11 +79,13 @@ export function useResizing(props: { elToResize: RefObject<HTMLElement> }) {
       }
 
       props.elToResize.current.addEventListener('mousedown', handleBorderMouseDown)
+      props.elToResize.current.addEventListener('mouseover', handleBorderMouseOver)
 
       return () => {
          props.elToResize.current?.removeEventListener('mousedown', handleBorderMouseDown)
+         props.elToResize.current?.removeEventListener('mouseover', handleBorderMouseOver)
       }
    }, [props.elToResize])
 
-   return distanceResized
+   return { ...distanceResized, canResize: isHovered }
 }

@@ -5,16 +5,8 @@
    left: 50px;
    border: 10px solid white;
 
-   &._clicked {
-      border-color: aqua;
-   }
-
-   &._hovered {
-      border-color: yellow;
-   }
-
    &._resized {
-      border-color: greenyellow;
+      cursor: col-resize;
    }
 
    .title {

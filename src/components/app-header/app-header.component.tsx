@@ -8,7 +8,7 @@ export function AppHeader(props: PropsWithChildren<{ title: string }>) {
    const appBorderRef = useRef<HTMLDivElement>(null)
    const appHeaderRef = useRef<HTMLDivElement>(null)
    const distanceDragged = useDragging({ elToDrag: appHeaderRef })
-   const { horizontally, vertically } = useResizing({ elToResize: appBorderRef })
+   const { canResize, horizontally, vertically } = useResizing({ elToResize: appBorderRef })
 
    return (
       <div
@@ -22,9 +22,7 @@ export function AppHeader(props: PropsWithChildren<{ title: string }>) {
          }}
          ref={appBorderRef}
          className={clsx(s.appHeader, {
-            // [s._clicked]: isClicked,
-            // [s._hovered]: isHovered,
-            // [s._resized]: isClicked && isHovered,
+            [s._resized]: canResize,
          })}
       >
          <div ref={appHeaderRef}>

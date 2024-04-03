@@ -23,7 +23,7 @@ export function Calculator() {
 
    return (
       <AppHeader title="Calculator">
-         <div className={s.wrapper}>
+         <div className={s.calculator}>
             <div className={s.screen}>{screen}</div>
 
             <div className={s.buttons}>
