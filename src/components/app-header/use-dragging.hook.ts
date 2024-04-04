@@ -33,7 +33,6 @@ export function useDragging(props: UseDraggingProps): UseDraggingData {
       setLastClick(null)
    }
 
-   // TODO: Do I need `useCallback`?
    const handleDocumentMouseMove = useCallback(
       (e: MouseEvent) => {
          if (!lastClick) {
