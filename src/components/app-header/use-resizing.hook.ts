@@ -1,34 +1,46 @@
-import { RefObject, useCallback, useEffect, useRef, useState } from 'react'
+import { RefObject, useEffect, useRef, useState } from 'react'
 
 type Coords = {
    clientX: number
    clientY: number
 }
 
-export function useResizing(props: { elToResize: RefObject<HTMLElement> }) {
+type UseResizingData = {
+   /** Distance resized vertically (in pixels) */
+   verticalResizeInPx: number
+   /** Distance resized horizontally (in pixels) */
+   horizontalResizeInPx: number
+   /** Indicates if the cursor is hovering over the border */
+   canResize: boolean
+}
+
+type UseResizingProps = {
+   elToResize: RefObject<HTMLElement>
+}
+
+/** Returns distance in pixels how much a DOM node was resized vertically and horizontally */
+export function useResizing(props: UseResizingProps): UseResizingData {
    const [isClicked, setIsClicked] = useState(false)
    const [isHovered, setIsHovered] = useState(false)
    const [distanceResized, setDistanceResized] = useState({ horizontally: 0, vertically: 0 })
    const lastClickRef = useRef<Coords>({ clientX: 0, clientY: 0 })
 
-   // TODO: Check if `useCallback` really necessary
-   const handleBorderMouseDown = useCallback((e: MouseEvent) => {
-      if (!props.elToResize.current || !e.target) {
+   const handleBorderMouseDown = (e: MouseEvent) => {
+      if (!props.elToResize.current || !e.target || !(e.target instanceof Element)) {
          return
       }
 
-      // TODO: Explain me
+      // Determine if clicked on the border element or a child inside it
       if (e.target.contains(props.elToResize.current)) {
          setIsClicked(true)
          lastClickRef.current = { clientX: e.clientX, clientY: e.clientY }
       } else {
          setIsClicked(false)
       }
-   }, [])
+   }
 
-   // TODO: Check if `useCallback` really necessary
-   const handleBorderMouseOver = useCallback((e: MouseEvent) => {
-      if (!e.target) {
+   const handleBorderMouseOver = (e: MouseEvent) => {
+      if (!e.target || !(e.target instanceof Element)) {
          return
       }
 
@@ -37,9 +49,8 @@ export function useResizing(props: { elToResize: RefObject<HTMLElement> }) {
       } else {
          setIsHovered(false)
       }
-   }, [])
+   }
 
-   // TODO: Check if `useCallback` needed
    const handleDocumentMouseMove = (e: MouseEvent) => {
       const movedHorizontally = e.clientX - lastClickRef.current.clientX
       const movedVertically = e.clientY - lastClickRef.current.clientY
@@ -52,10 +63,9 @@ export function useResizing(props: { elToResize: RefObject<HTMLElement> }) {
       lastClickRef.current = { clientX: e.clientX, clientY: e.clientY }
    }
 
-   // TODO: Check if `useCallback` really necessary
-   const handleDocumentMouseUp = useCallback(() => {
+   const handleDocumentMouseUp = () => {
       setIsClicked(false)
-   }, [])
+   }
 
    useEffect(() => {
       if (!isClicked) {
@@ -85,7 +95,12 @@ export function useResizing(props: { elToResize: RefObject<HTMLElement> }) {
          props.elToResize.current?.removeEventListener('mousedown', handleBorderMouseDown)
          props.elToResize.current?.removeEventListener('mouseover', handleBorderMouseOver)
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [props.elToResize])
 
-   return { ...distanceResized, canResize: isHovered }
+   return {
+      canResize: isHovered,
+      verticalResizeInPx: distanceResized.vertically,
+      horizontalResizeInPx: distanceResized.horizontally,
+   }
 }

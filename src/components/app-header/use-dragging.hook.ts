@@ -5,19 +5,35 @@ type Coords = {
    left: number
 }
 
+type UseDraggingData = {
+   /** Distance dragged vertically (in pixels) */
+   verticalDragInPx: number
+   /** Distance dragged horizontally (in pixels) */
+   horizontalDragInPx: number
+}
+
+type UseDraggingProps = {
+   elToDrag: RefObject<HTMLElement>
+}
+
 /** Returns distance in pixels how much a DOM node was dragged */
-export function useDragging(props: { elToDrag: RefObject<HTMLElement> }) {
+export function useDragging(props: UseDraggingProps): UseDraggingData {
    const [lastClick, setLastClick] = useState<Coords | null>(null)
    const [distanceDragged, setDistanceDragged] = useState<Coords>({ top: 0, left: 0 })
 
-   const handleElementMouseDown = useCallback((e: MouseEvent) => {
+   const handleElementMouseDown = (e: MouseEvent) => {
+      document.addEventListener('mouseup', handleDocumentMouseUp)
+
       setLastClick({ top: e.clientY, left: e.clientX })
-   }, [])
+   }
 
-   const handleDocumentMouseUp = useCallback(() => {
+   const handleDocumentMouseUp = () => {
+      document.removeEventListener('mouseup', handleDocumentMouseUp)
+
       setLastClick(null)
-   }, [])
+   }
 
+   // TODO: Do I need `useCallback`?
    const handleDocumentMouseMove = useCallback(
       (e: MouseEvent) => {
          if (!lastClick) {
@@ -42,13 +58,12 @@ export function useDragging(props: { elToDrag: RefObject<HTMLElement> }) {
       }
 
       props.elToDrag.current.addEventListener('mousedown', handleElementMouseDown)
-      document.addEventListener('mouseup', handleDocumentMouseUp)
 
       return () => {
          props.elToDrag.current?.removeEventListener('mousedown', handleElementMouseDown)
-         document.removeEventListener('mouseup', handleDocumentMouseUp)
       }
-   }, [handleDocumentMouseUp, handleElementMouseDown, props.elToDrag])
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [props.elToDrag])
 
    useEffect(() => {
       if (!lastClick) {
@@ -63,5 +78,8 @@ export function useDragging(props: { elToDrag: RefObject<HTMLElement> }) {
       }
    }, [handleDocumentMouseMove, lastClick])
 
-   return distanceDragged
+   return {
+      verticalDragInPx: distanceDragged.top,
+      horizontalDragInPx: distanceDragged.left,
+   }
 }
