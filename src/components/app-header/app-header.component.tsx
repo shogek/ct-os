@@ -3,10 +3,11 @@ import { useSetAtom } from 'jotai'
 import { clsx } from 'clsx'
 import { getRandomNumberBetween } from '../../general/helpers/number.helpers'
 import { activeApplicationsAtom } from '../../atoms/active-applications.atom'
-import { IconClose } from '../icons/icon-close'
 import { useDragging } from './use-dragging.hook'
 import { useResizing } from './use-resizing.hook'
 import s from './app-header.module.scss'
+import { DynamicIcon } from '../icons/icon'
+import { ICON_TYPES } from '../icons/types'
 
 type AppHeaderProps = {
    id: number
@@ -16,8 +17,8 @@ type AppHeaderProps = {
 export function AppHeader(props: PropsWithChildren<AppHeaderProps>) {
    const setActiveApplications = useSetAtom(activeApplicationsAtom)
 
-   const [randomTop, setRandomTop] = useState(getRandomNumberBetween(10, 100))
-   const [randomLeft, setRandomLeft] = useState(getRandomNumberBetween(100, 800))
+   const [randomTop] = useState(getRandomNumberBetween(10, 100))
+   const [randomLeft] = useState(getRandomNumberBetween(100, 800))
    const appBorderRef = useRef<HTMLDivElement>(null)
    const appHeaderRef = useRef<HTMLDivElement>(null)
 
@@ -48,7 +49,7 @@ export function AppHeader(props: PropsWithChildren<AppHeaderProps>) {
             <span className={s.title}>{props.title}</span>
 
             <button type="button" onClick={handleCloseButtonClick}>
-               <IconClose className={s.close} />
+               <DynamicIcon type={ICON_TYPES.CLOSE} iconProps={{ className: s.close }} />
             </button>
          </div>
 

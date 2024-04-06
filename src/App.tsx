@@ -4,6 +4,7 @@ import { Shortcut } from './components/shortcut/shortcut.component'
 import { Calculator } from './features/calculator/calculator.component'
 import { activeApplicationsAtom } from './atoms/active-applications.atom'
 import { Taskbar } from './components/taskbar/taskbar'
+import { ICON_TYPES } from './components/icons/types'
 
 export default function App() {
    const activeApplications = useAtomValue(activeApplicationsAtom)
@@ -12,14 +13,17 @@ export default function App() {
       {
          id: 1,
          title: 'Calculator',
+         icon: ICON_TYPES.CALCULATOR,
       },
       {
          id: 2,
          title: 'Notepad',
+         icon: ICON_TYPES.NOTE,
       },
       {
          id: 3,
          title: 'Explorer',
+         icon: ICON_TYPES.FOLDER,
       },
    ]
 
@@ -27,7 +31,7 @@ export default function App() {
       <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
          <Desktop>
             {shortcuts.map((shortcut) => (
-               <Shortcut key={shortcut.id} title={shortcut.title} />
+               <Shortcut key={shortcut.id} title={shortcut.title} icon={shortcut.icon} />
             ))}
 
             {activeApplications.map((activeApp) => (
