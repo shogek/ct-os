@@ -1,16 +1,16 @@
 import { useAtomValue } from 'jotai'
-import { activeApplicationsAtom } from '../../atoms/active-applications.atom'
+import { openAppsAtom } from '../../atoms/opened-apps.atom'
 import { DynamicIcon } from '../icons/icon'
 import s from './taskbar.module.scss'
 
 export function Taskbar() {
-   const activeApplications = useAtomValue(activeApplicationsAtom)
+   const openApps = useAtomValue(openAppsAtom)
 
    return (
       <div className={s.taskbar}>
-         {activeApplications.map((activeApp) => (
-            <div key={activeApp.id} className={s.item} title={`${activeApp.id} | ${activeApp.title}`}>
-               <DynamicIcon type={activeApp.icon} iconProps={{ className: s.icon }} />
+         {openApps.map((openApp) => (
+            <div key={openApp.id} className={s.item} title={`${openApp.id} | ${openApp.name}`}>
+               <DynamicIcon type={openApp.icon} iconProps={{ className: s.icon }} />
             </div>
          ))}
       </div>

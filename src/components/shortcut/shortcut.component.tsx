@@ -1,19 +1,18 @@
 import { useState } from 'react'
 import { useSetAtom } from 'jotai'
 import clsx from 'clsx'
-import { activeApplicationsAtom } from '../../atoms/active-applications.atom'
-import { getRandomNumberBetween } from '../../general/helpers/number.helpers'
-import { ICON_TYPES } from '../icons/types'
+import { openAppsAtom } from '../../atoms/opened-apps.atom'
 import { DynamicIcon } from '../icons/icon'
+import { appService } from '../../general/services/app.service'
+import { App } from '../../general/types/app.types'
 import s from './shortcut.module.scss'
 
 type ShortcutProps = {
-   title: string
-   icon: ICON_TYPES
+   app: App
 }
 
 export function Shortcut(props: ShortcutProps) {
-   const setActiveApplications = useSetAtom(activeApplicationsAtom)
+   const setOpenApps = useSetAtom(openAppsAtom)
    const [isSelected, setIsSelected] = useState(false)
 
    const handleElementOnClick = () => {
@@ -24,22 +23,21 @@ export function Shortcut(props: ShortcutProps) {
 
       setIsSelected(false)
 
-      setActiveApplications((apps) => [
-         ...apps,
-         {
-            id: getRandomNumberBetween(1, 1_000_000),
-            title: props.title,
-            icon: props.icon,
-         },
-      ])
+      setOpenApps((openApps) =>
+         appService.open({
+            openApps,
+            app: props.app,
+         }),
+      )
    }
 
    return (
       <div className={clsx(s.shortcut, { [s._selected]: isSelected })} onClick={handleElementOnClick}>
          <div className={s.iconWrapper}>
-            <DynamicIcon type={props.icon} iconProps={{ className: s.icon }} />
+            <DynamicIcon type={props.app.icon} iconProps={{ className: s.icon }} />
          </div>
-         <span className={s.title}>{props.title}</span>
+
+         <span className={s.title}>{props.app.name}</span>
       </div>
    )
 }

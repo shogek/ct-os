@@ -1,18 +1,19 @@
+import { ICON_TYPE } from '../../general/types/icon.types'
 import { IconCalculator } from './icon-calculator'
 import { IconClose } from './icon-close'
 import { IconFolder } from './icon-folder'
 import { IconNote } from './icon-note'
-import { ICON_TYPES, IconProps } from './types'
+import { IconProps } from './types'
 
-function getIcon(type: ICON_TYPES, props?: IconProps): JSX.Element {
+function getIcon(type: ICON_TYPE, props?: IconProps): JSX.Element {
    switch (type) {
-      case ICON_TYPES.CALCULATOR:
+      case ICON_TYPE.CALCULATOR:
          return <IconCalculator {...props} />
-      case ICON_TYPES.CLOSE:
+      case ICON_TYPE.CLOSE:
          return <IconClose {...props} />
-      case ICON_TYPES.FOLDER:
+      case ICON_TYPE.FOLDER:
          return <IconFolder {...props} />
-      case ICON_TYPES.NOTE:
+      case ICON_TYPE.NOTE:
          return <IconNote {...props} />
       default:
          assertExhaustiveSwitchStatement(type)
@@ -20,7 +21,7 @@ function getIcon(type: ICON_TYPES, props?: IconProps): JSX.Element {
 }
 
 type DynamicIcon = {
-   type: ICON_TYPES
+   type: ICON_TYPE
    iconProps?: IconProps
 }
 

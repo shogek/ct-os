@@ -2,20 +2,21 @@ import { PropsWithChildren, useRef, useState } from 'react'
 import { useSetAtom } from 'jotai'
 import { clsx } from 'clsx'
 import { getRandomNumberBetween } from '../../general/helpers/number.helpers'
-import { activeApplicationsAtom } from '../../atoms/active-applications.atom'
+import { openAppsAtom } from '../../atoms/opened-apps.atom'
 import { useDragging } from './use-dragging.hook'
 import { useResizing } from './use-resizing.hook'
-import s from './app-header.module.scss'
 import { DynamicIcon } from '../icons/icon'
-import { ICON_TYPES } from '../icons/types'
+import { ICON_TYPE } from '../../general/types/icon.types'
+import { appService } from '../../general/services/app.service'
+import { OpenApp } from '../../general/types/app.types'
+import s from './app-header.module.scss'
 
 type AppHeaderProps = {
-   id: number
-   title: string
+   openApp: OpenApp
 }
 
 export function AppHeader(props: PropsWithChildren<AppHeaderProps>) {
-   const setActiveApplications = useSetAtom(activeApplicationsAtom)
+   const setOpenApps = useSetAtom(openAppsAtom)
 
    const [randomTop] = useState(getRandomNumberBetween(10, 100))
    const [randomLeft] = useState(getRandomNumberBetween(100, 800))
@@ -26,7 +27,11 @@ export function AppHeader(props: PropsWithChildren<AppHeaderProps>) {
    const { canResize, horizontalResizeInPx, verticalResizeInPx } = useResizing({ elToResize: appBorderRef })
 
    const handleCloseButtonClick = () => {
-      setActiveApplications((activeApps) => activeApps.filter((x) => x.id !== props.id))
+      setOpenApps((openApps) => appService.close({ openApps, appId: props.openApp.id }))
+   }
+
+   const handleOnMouseDown = () => {
+      setOpenApps((openApps) => appService.focus({ openApps, appId: props.openApp.id }))
    }
 
    return (
@@ -38,18 +43,20 @@ export function AppHeader(props: PropsWithChildren<AppHeaderProps>) {
             height: 300 + verticalResizeInPx + 'px',
             top: randomTop + verticalDragInPx,
             left: randomLeft + horizontalDragInPx,
+            zIndex: props.openApp.zIndex,
             backgroundColor: 'red',
          }}
          ref={appBorderRef}
          className={clsx(s.appHeader, {
             [s._resized]: canResize,
          })}
+         onMouseDown={handleOnMouseDown}
       >
          <div className={s.header} ref={appHeaderRef}>
-            <span className={s.title}>{props.title}</span>
+            <span className={s.title}>{props.openApp.name}</span>
 
             <button type="button" onClick={handleCloseButtonClick}>
-               <DynamicIcon type={ICON_TYPES.CLOSE} iconProps={{ className: s.close }} />
+               <DynamicIcon type={ICON_TYPE.CLOSE} iconProps={{ className: s.close }} />
             </button>
          </div>
 

@@ -1,9 +1,10 @@
 import { useState, MouseEvent } from 'react'
 import { AppHeader } from '../../components/app-header/app-header.component'
+import { OpenApp } from '../../general/types/app.types'
 import s from './calculator.module.scss'
 
 type CalculatorProps = {
-   id: number
+   openApp: OpenApp
 }
 
 export function Calculator(props: CalculatorProps) {
@@ -26,7 +27,7 @@ export function Calculator(props: CalculatorProps) {
    }
 
    return (
-      <AppHeader id={props.id} title="Calculator">
+      <AppHeader openApp={props.openApp}>
          <div className={s.calculator}>
             <div className={s.screen}>{screen}</div>
 
