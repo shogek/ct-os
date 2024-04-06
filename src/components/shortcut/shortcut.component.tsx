@@ -1,8 +1,11 @@
 import { useState } from 'react'
+import { useSetAtom } from 'jotai'
 import clsx from 'clsx'
 import { IconCalculator } from '../icons/icon-calculator'
 import { IconExplorer } from '../icons/icon-explorer'
 import { IconNotepad } from '../icons/icon-notepad'
+import { activeApplicationsAtom } from '../../atoms/active-applications.atom'
+import { getRandomNumberBetween } from '../../general/helpers/number.helpers'
 import s from './shortcut.module.scss'
 
 type ShortcutProps = {
@@ -10,6 +13,7 @@ type ShortcutProps = {
 }
 
 export function Shortcut(props: ShortcutProps) {
+   const setActiveApplications = useSetAtom(activeApplicationsAtom)
    const [isSelected, setIsSelected] = useState(false)
 
    const handleElementOnClick = () => {
@@ -18,8 +22,15 @@ export function Shortcut(props: ShortcutProps) {
          return
       }
 
-      // TODO: Open the app
       setIsSelected(false)
+
+      setActiveApplications((apps) => [
+         ...apps,
+         {
+            id: getRandomNumberBetween(1, 1_000_000),
+            title: props.title,
+         },
+      ])
    }
 
    return (

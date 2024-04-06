@@ -1,8 +1,12 @@
+import { useAtomValue } from 'jotai'
 import { Desktop } from './components/desktop/desktop.component'
 import { Shortcut } from './components/shortcut/shortcut.component'
 import { Calculator } from './features/calculator/calculator.component'
+import { activeApplicationsAtom } from './atoms/active-applications.atom'
 
 export default function App() {
+   const activeApplications = useAtomValue(activeApplicationsAtom)
+
    const shortcuts = [
       {
          id: 1,
@@ -24,9 +28,9 @@ export default function App() {
             <Shortcut key={shortcut.id} title={shortcut.title} />
          ))}
 
-         <Calculator />
-         <Calculator />
-         <Calculator />
+         {activeApplications.map((activeApp) => (
+            <Calculator key={activeApp.id} />
+         ))}
       </Desktop>
    )
 }

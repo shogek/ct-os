@@ -1,3 +1,8 @@
 import { atom } from 'jotai'
 
-export const activeApplicationsAtom = atom([])
+type ActiveApplication = {
+   id: number
+   title: string
+}
+
+export const activeApplicationsAtom = atom<ActiveApplication[]>([])
