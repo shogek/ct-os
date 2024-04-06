@@ -14,6 +14,7 @@ export type OpenApp = {
    type: APP_TYPE
    icon: ICON_TYPE
    zIndex: number
+   isFocused: boolean
 }
 
 export enum APP_TYPE {

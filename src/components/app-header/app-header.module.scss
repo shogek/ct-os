@@ -15,6 +15,13 @@
       display: flex;
    }
 
+   &._focused {
+      .title {
+         background-color: white;
+         color: black;
+      }
+   }
+
    .title {
       width: 100%;
       display: block;

@@ -11,9 +11,12 @@ class AppService implements IAppService {
          icon: app.icon,
          // Newly opened applications always go on top of everything
          zIndex: openApps.length + 1,
+         isFocused: true,
       }
 
-      return [newApp, ...openApps]
+      const appsInBackground = openApps.map((x) => ({ ...x, isFocused: false }))
+
+      return [newApp, ...appsInBackground]
    }
 
    close({ openApps, appId }: CloseParams): OpenApp[] {
@@ -36,12 +39,12 @@ class AppService implements IAppService {
       return openApps.map((x) => {
          if (x.id === appId) {
             // Move the target app closest to the screen
-            return { ...x, zIndex: openApps.length }
+            return { ...x, zIndex: openApps.length, isFocused: true }
          }
 
          if (x.zIndex > referenceZIndex) {
             // Move all the apps that were in front on the target app one level back
-            return { ...x, zIndex: x.zIndex - 1 }
+            return { ...x, zIndex: x.zIndex - 1, isFocused: false }
          }
 
          return x

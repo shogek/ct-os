@@ -49,6 +49,7 @@ export function AppHeader(props: PropsWithChildren<AppHeaderProps>) {
          ref={appBorderRef}
          className={clsx(s.appHeader, {
             [s._resized]: canResize,
+            [s._focused]: props.openApp.isFocused,
          })}
          onMouseDown={handleOnMouseDown}
       >
