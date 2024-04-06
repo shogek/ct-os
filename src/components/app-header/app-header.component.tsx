@@ -7,7 +7,7 @@ import s from './app-header.module.scss'
 
 export function AppHeader(props: PropsWithChildren<{ title: string }>) {
    const [randomTop, setRandomTop] = useState(getRandomNumberBetween(10, 100))
-   const [randomLeft, setRandomLeft] = useState(getRandomNumberBetween(10, 500))
+   const [randomLeft, setRandomLeft] = useState(getRandomNumberBetween(100, 800))
    const appBorderRef = useRef<HTMLDivElement>(null)
    const appHeaderRef = useRef<HTMLDivElement>(null)
    const { horizontalDragInPx, verticalDragInPx } = useDragging({ elToDrag: appHeaderRef })

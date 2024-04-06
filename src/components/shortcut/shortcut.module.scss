@@ -1,0 +1,32 @@
+.shortcut {
+   width: 90px;
+   height: 80px;
+   padding: 8px;
+   background-color: rgba(#000, 0.3);
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   gap: 8px;
+
+   &._selected {
+      background-color: rgba(#000, 0.6);
+   }
+
+   .wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+   }
+   .icon {
+      width: 40px;
+      height: 40px;
+      fill: white;
+   }
+
+   .title {
+      width: 100%;
+      text-align: center;
+   }
+}
