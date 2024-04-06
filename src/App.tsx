@@ -3,6 +3,7 @@ import { Desktop } from './components/desktop/desktop.component'
 import { Shortcut } from './components/shortcut/shortcut.component'
 import { Calculator } from './features/calculator/calculator.component'
 import { activeApplicationsAtom } from './atoms/active-applications.atom'
+import { Taskbar } from './components/taskbar/taskbar'
 
 export default function App() {
    const activeApplications = useAtomValue(activeApplicationsAtom)
@@ -23,14 +24,18 @@ export default function App() {
    ]
 
    return (
-      <Desktop>
-         {shortcuts.map((shortcut) => (
-            <Shortcut key={shortcut.id} title={shortcut.title} />
-         ))}
+      <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
+         <Desktop>
+            {shortcuts.map((shortcut) => (
+               <Shortcut key={shortcut.id} title={shortcut.title} />
+            ))}
 
-         {activeApplications.map((activeApp) => (
-            <Calculator key={activeApp.id} id={activeApp.id} />
-         ))}
-      </Desktop>
+            {activeApplications.map((activeApp) => (
+               <Calculator key={activeApp.id} id={activeApp.id} />
+            ))}
+         </Desktop>
+
+         <Taskbar />
+      </div>
    )
 }
