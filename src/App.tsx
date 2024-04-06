@@ -29,7 +29,7 @@ export default function App() {
          ))}
 
          {activeApplications.map((activeApp) => (
-            <Calculator key={activeApp.id} />
+            <Calculator key={activeApp.id} id={activeApp.id} />
          ))}
       </Desktop>
    )

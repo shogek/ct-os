@@ -2,7 +2,11 @@ import { useState, MouseEvent } from 'react'
 import { AppHeader } from '../../components/app-header/app-header.component'
 import s from './calculator.module.scss'
 
-export function Calculator() {
+type CalculatorProps = {
+   id: number
+}
+
+export function Calculator(props: CalculatorProps) {
    const [screen, setScreen] = useState('')
 
    const handleDigitClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -22,7 +26,7 @@ export function Calculator() {
    }
 
    return (
-      <AppHeader title="Calculator">
+      <AppHeader id={props.id} title="Calculator">
          <div className={s.calculator}>
             <div className={s.screen}>{screen}</div>
 
