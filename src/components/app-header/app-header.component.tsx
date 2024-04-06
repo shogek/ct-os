@@ -26,12 +26,12 @@ export function AppHeader(props: PropsWithChildren<AppHeaderProps>) {
    const { horizontalDragInPx, verticalDragInPx } = useDragging({ elToDrag: appHeaderRef })
    const { canResize, horizontalResizeInPx, verticalResizeInPx } = useResizing({ elToResize: appBorderRef })
 
-   const handleCloseButtonClick = () => {
-      setOpenApps((openApps) => appService.close({ openApps, appId: props.openApp.id }))
-   }
-
    const handleOnMouseDown = () => {
       setOpenApps((openApps) => appService.focus({ openApps, appId: props.openApp.id }))
+   }
+
+   const handleCloseButtonClick = () => {
+      setOpenApps((openApps) => appService.close({ openApps, appId: props.openApp.id }))
    }
 
    return (
@@ -44,7 +44,7 @@ export function AppHeader(props: PropsWithChildren<AppHeaderProps>) {
             top: randomTop + verticalDragInPx,
             left: randomLeft + horizontalDragInPx,
             zIndex: props.openApp.zIndex,
-            backgroundColor: 'red',
+            backgroundColor: '#000',
          }}
          ref={appBorderRef}
          className={clsx(s.appHeader, {
@@ -55,8 +55,8 @@ export function AppHeader(props: PropsWithChildren<AppHeaderProps>) {
          <div className={s.header} ref={appHeaderRef}>
             <span className={s.title}>{props.openApp.name}</span>
 
-            <button type="button" onClick={handleCloseButtonClick}>
-               <DynamicIcon type={ICON_TYPE.CLOSE} iconProps={{ className: s.close }} />
+            <button type="button" className={s.closeButton} onClick={handleCloseButtonClick}>
+               <DynamicIcon type={ICON_TYPE.CLOSE} iconProps={{ className: s.closeIcon }} />
             </button>
          </div>
 

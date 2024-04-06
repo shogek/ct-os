@@ -3,7 +3,9 @@
    position: absolute;
    top: 50px;
    left: 50px;
-   border: 10px solid white;
+   border: 2px solid white;
+   display: flex;
+   flex-direction: column;
 
    &._resized {
       cursor: col-resize;
@@ -22,7 +24,22 @@
       cursor: move;
    }
 
-   .close {
+   .closeButton {
+      background-color: black;
+      border: 1px solid black;
+      cursor: pointer;
+
+      &:hover {
+         background-color: white;
+         border-color: white;
+
+         .closeIcon {
+            fill: black;
+         }
+      }
+   }
+
+   .closeIcon {
       width: 8px;
       height: 8px;
       fill: white;
