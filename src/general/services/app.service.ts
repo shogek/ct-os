@@ -1,9 +1,9 @@
 import { getRandomId } from '../helpers/number.helpers'
-import { CloseParams, FocusParams, IAppService, OpenParams } from '../types/app-service.types'
+import { CommonParams, IAppService, OpenParams } from '../types/app-service.types'
 import { OpenApp } from '../types/app.types'
 
 class AppService implements IAppService {
-   open({ openApps, app }: OpenParams): OpenApp[] {
+   open({ openApps, shortcut: app }: OpenParams): OpenApp[] {
       const newApp: OpenApp = {
          id: getRandomId(),
          name: app.name,
@@ -12,6 +12,8 @@ class AppService implements IAppService {
          // Newly opened applications always go on top of everything
          zIndex: openApps.length + 1,
          isFocused: true,
+         isMinimized: false,
+         isMaximized: false,
       }
 
       const appsInBackground = openApps.map((x) => ({ ...x, isFocused: false }))
@@ -19,11 +21,11 @@ class AppService implements IAppService {
       return [newApp, ...appsInBackground]
    }
 
-   close({ openApps, appId }: CloseParams): OpenApp[] {
+   close({ openApps, appId }: CommonParams): OpenApp[] {
       return openApps.filter((x) => x.id !== appId)
    }
 
-   focus({ openApps, appId }: FocusParams): OpenApp[] {
+   focus({ openApps, appId }: CommonParams): OpenApp[] {
       const appToFocus = openApps.find((x) => x.id === appId)
       if (!appToFocus) {
          throw new Error('It is not possible to focus on an app that is not opened')
@@ -36,7 +38,7 @@ class AppService implements IAppService {
 
       const referenceZIndex = appToFocus.zIndex
 
-      return openApps.map((x) => {
+      return openApps.map((x): OpenApp => {
          if (x.id === appId) {
             // Move the target app closest to the screen
             return { ...x, zIndex: openApps.length, isFocused: true }
@@ -48,6 +50,48 @@ class AppService implements IAppService {
          }
 
          return x
+      })
+   }
+
+   minimize({ openApps, appId }: CommonParams): OpenApp[] {
+      return openApps.map((openApp): OpenApp => {
+         if (openApp.id !== appId) {
+            return openApp
+         }
+
+         return { ...openApp, isMinimized: true, isFocused: false }
+      })
+   }
+
+   unMinimize({ openApps, appId }: CommonParams): OpenApp[] {
+      const focusSorted = openApps.map((openApp): OpenApp => {
+         if (openApp.id !== appId) {
+            return { ...openApp, isFocused: false }
+         }
+
+         return { ...openApp, isMinimized: false, isFocused: true }
+      })
+
+      return this.focus({ openApps: focusSorted, appId })
+   }
+
+   maximize({ openApps, appId }: CommonParams): OpenApp[] {
+      return openApps.map((openApp): OpenApp => {
+         if (openApp.id !== appId) {
+            return openApp
+         }
+
+         return { ...openApp, isMaximized: true }
+      })
+   }
+
+   unMaximize({ openApps, appId }: CommonParams): OpenApp[] {
+      return openApps.map((openApp): OpenApp => {
+         if (openApp.id !== appId) {
+            return openApp
+         }
+
+         return { ...openApp, isMaximized: false }
       })
    }
 }

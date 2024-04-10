@@ -1,22 +1,22 @@
-import { OpenApp, App } from './app.types'
+import { OpenApp } from './app.types'
+import { Shortcut } from './shortcut.types'
 
 export interface IAppService {
    open(params: OpenParams): OpenApp[]
-   close(params: CloseParams): OpenApp[]
-   focus(params: FocusParams): OpenApp[]
+   close(params: CommonParams): OpenApp[]
+   focus(params: CommonParams): OpenApp[]
+   minimize(params: CommonParams): OpenApp[]
+   unMinimize(params: CommonParams): OpenApp[]
+   maximize(params: CommonParams): OpenApp[]
+   unMaximize(params: CommonParams): OpenApp[]
 }
 
 export type OpenParams = {
    openApps: OpenApp[]
-   app: App
+   shortcut: Shortcut
 }
 
-export type CloseParams = {
-   openApps: OpenApp[]
-   appId: string
-}
-
-export type FocusParams = {
+export type CommonParams = {
    openApps: OpenApp[]
    appId: string
 }

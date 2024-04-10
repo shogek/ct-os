@@ -16,10 +16,7 @@
    }
 
    &._focused {
-      .title {
-         background-color: white;
-         color: black;
-      }
+      border-color: aquamarine;
    }
 
    .title {
@@ -31,7 +28,7 @@
       cursor: move;
    }
 
-   .closeButton {
+   .button {
       background-color: black;
       border: 1px solid black;
       cursor: pointer;
@@ -40,15 +37,15 @@
          background-color: white;
          border-color: white;
 
-         .closeIcon {
+         .icon {
             fill: black;
          }
       }
    }
 
-   .closeIcon {
-      width: 8px;
-      height: 8px;
+   .icon {
+      width: 16px;
+      height: 16px;
       fill: white;
    }
 }

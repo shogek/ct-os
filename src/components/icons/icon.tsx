@@ -1,20 +1,28 @@
+import { Suspense, lazy } from 'react'
 import { ICON_TYPE } from '../../general/types/icon.types'
-import { IconCalculator } from './icon-calculator'
-import { IconClose } from './icon-close'
-import { IconFolder } from './icon-folder'
-import { IconNote } from './icon-note'
 import { IconProps } from './types'
 
-function getIcon(type: ICON_TYPE, props?: IconProps): JSX.Element {
+const DynamicIconCalculator = lazy(() => import('./icon-calculator'))
+const DynamicIconClose = lazy(() => import('./icon-close'))
+const DynamicIconFolder = lazy(() => import('./icon-folder'))
+const DynamicIconNote = lazy(() => import('./icon-note'))
+const DynamicIconUnderscore = lazy(() => import('./icon-underscore'))
+const DynamicIconWindows = lazy(() => import('./icon-windows'))
+
+function getIcon(type: ICON_TYPE, props?: IconProps) {
    switch (type) {
       case ICON_TYPE.CALCULATOR:
-         return <IconCalculator {...props} />
+         return <DynamicIconCalculator {...props} />
       case ICON_TYPE.CLOSE:
-         return <IconClose {...props} />
+         return <DynamicIconClose {...props} />
       case ICON_TYPE.FOLDER:
-         return <IconFolder {...props} />
+         return <DynamicIconFolder {...props} />
       case ICON_TYPE.NOTE:
-         return <IconNote {...props} />
+         return <DynamicIconNote {...props} />
+      case ICON_TYPE.WINDOWS:
+         return <DynamicIconWindows {...props} />
+      case ICON_TYPE.UNDERSCORE:
+         return <DynamicIconUnderscore {...props} />
       default:
          assertExhaustiveSwitchStatement(type)
    }
@@ -26,5 +34,5 @@ type DynamicIcon = {
 }
 
 export function DynamicIcon(props: DynamicIcon) {
-   return getIcon(props.type, props.iconProps)
+   return <Suspense>{getIcon(props.type, props.iconProps)}</Suspense>
 }

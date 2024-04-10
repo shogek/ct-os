@@ -34,15 +34,28 @@ export function AppHeader(props: PropsWithChildren<AppHeaderProps>) {
       setOpenApps((openApps) => appService.close({ openApps, appId: props.openApp.id }))
    }
 
+   const handleMaximizeButtonClick = () => {
+      setOpenApps((openApps) =>
+         props.openApp.isMaximized
+            ? appService.unMaximize({ openApps, appId: props.openApp.id })
+            : appService.maximize({ openApps, appId: props.openApp.id }),
+      )
+   }
+
+   const handleMinimizeButtonClick = () => {
+      setOpenApps((openApps) => appService.minimize({ openApps, appId: props.openApp.id }))
+   }
+
    return (
       <div
          style={{
             minWidth: '250px',
             minHeight: '300px',
-            width: 250 + horizontalResizeInPx + 'px',
-            height: 300 + verticalResizeInPx + 'px',
-            top: randomTop + verticalDragInPx,
-            left: randomLeft + horizontalDragInPx,
+            width: props.openApp.isMaximized ? '100%' : 250 + horizontalResizeInPx + 'px',
+            height: props.openApp.isMaximized ? '100%' : 300 + verticalResizeInPx + 'px',
+            display: props.openApp.isMinimized ? 'none' : 'flex',
+            top: props.openApp.isMaximized ? 0 : randomTop + verticalDragInPx,
+            left: props.openApp.isMaximized ? 0 : randomLeft + horizontalDragInPx,
             zIndex: props.openApp.zIndex,
             backgroundColor: '#000',
          }}
@@ -56,8 +69,16 @@ export function AppHeader(props: PropsWithChildren<AppHeaderProps>) {
          <div className={s.header} ref={appHeaderRef}>
             <span className={s.title}>{props.openApp.name}</span>
 
-            <button type="button" className={s.closeButton} onClick={handleCloseButtonClick}>
-               <DynamicIcon type={ICON_TYPE.CLOSE} iconProps={{ className: s.closeIcon }} />
+            <button type="button" className={s.button} onClick={handleMinimizeButtonClick}>
+               <DynamicIcon type={ICON_TYPE.UNDERSCORE} iconProps={{ className: s.icon }} />
+            </button>
+
+            <button type="button" className={s.button} onClick={handleMaximizeButtonClick}>
+               <DynamicIcon type={ICON_TYPE.WINDOWS} iconProps={{ className: s.icon }} />
+            </button>
+
+            <button type="button" className={s.button} onClick={handleCloseButtonClick}>
+               <DynamicIcon type={ICON_TYPE.CLOSE} iconProps={{ className: s.icon }} />
             </button>
          </div>
 

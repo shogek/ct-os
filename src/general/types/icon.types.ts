@@ -3,4 +3,6 @@ export enum ICON_TYPE {
    CLOSE = 'Close',
    FOLDER = 'Folder',
    NOTE = 'Note',
+   UNDERSCORE = 'Underscore',
+   WINDOWS = 'Windows',
 }

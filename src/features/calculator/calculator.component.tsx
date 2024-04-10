@@ -1,13 +1,9 @@
 import { useState, MouseEvent } from 'react'
 import { AppHeader } from '../../components/app-header/app-header.component'
-import { OpenApp } from '../../general/types/app.types'
+import { CalculatorProps } from './types'
 import s from './calculator.module.scss'
 
-type CalculatorProps = {
-   openApp: OpenApp
-}
-
-export function Calculator(props: CalculatorProps) {
+export default function Calculator(props: CalculatorProps) {
    const [screen, setScreen] = useState('')
 
    const handleDigitClick = (e: MouseEvent<HTMLButtonElement>) => {

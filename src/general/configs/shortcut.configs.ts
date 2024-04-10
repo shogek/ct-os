@@ -1,7 +1,8 @@
-import { APP_TYPE, App } from '../types/app.types'
+import { APP_TYPE } from '../types/app.types'
 import { ICON_TYPE } from '../types/icon.types'
+import { Shortcut } from '../types/shortcut.types'
 
-export const APP_DEFINITION_CONFIG: readonly App[] = Object.freeze([
+export const SHORTCUT_CONFIG: readonly Shortcut[] = Object.freeze([
    {
       name: 'Calculator',
       type: APP_TYPE.CALCULATOR,
