@@ -1,7 +1,7 @@
 {
    "name": "ct-os",
    "private": true,
-   "base": "./",
+   "base": "ct-os/",
    "homepage": "https://shogek.github.io/ct-os",
    "version": "0.0.0",
    "type": "module",
