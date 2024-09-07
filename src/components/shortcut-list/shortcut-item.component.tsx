@@ -3,6 +3,9 @@ import { DynamicIcon } from '../icons/icon'
 import { Shortcut } from '../../general/types/shortcut.types'
 import s from './shortcut-item.module.scss'
 
+// TODO (Benas): Use the learner version of clsx
+// TODO (Benas): Replace `jotai` with `zustand`
+
 type ShortcutProps = {
    shortcut: Shortcut
    isSelected: boolean

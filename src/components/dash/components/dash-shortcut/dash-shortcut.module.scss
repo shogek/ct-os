@@ -1,0 +1,31 @@
+.wrapper {
+   position: relative;
+   padding: 2px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 8px;
+
+   &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+   }
+}
+
+.indicator {
+   position: absolute;
+   top: 50%;
+   left: 0;
+   width: 5px;
+   height: 4px;
+   border-radius: 32px;
+   background-color: transparent;
+
+   &._active {
+      background-color: rgb(188, 74, 49);
+   }
+}
+
+.icon {
+   width: 2rem;
+   height: 2rem;
+}
