@@ -1,9 +1,13 @@
 .appHeader {
+   min-width: 250px;
    width: fit-content;
+   min-height: 300px;
+   border: 2px solid #000;
+   border-radius: 12px;
    position: absolute;
    top: 50px;
    left: 50px;
-   border: 2px solid white;
+   background-color: #2a2a2a;
    display: flex;
    flex-direction: column;
 
@@ -11,41 +15,69 @@
       cursor: col-resize;
    }
 
-   .header {
-      display: flex;
-   }
-
    &._focused {
-      border-color: aquamarine;
-   }
+      background-color: #1f1f1f;
 
-   .title {
-      width: 100%;
-      display: block;
-      text-align: center;
-      background-color: black;
-      color: white;
-      cursor: move;
-   }
+      .title {
+         color: #eeeeee;
+      }
 
-   .button {
-      background-color: black;
-      border: 1px solid black;
-      cursor: pointer;
+      .button {
+         background-color: #373737;
 
-      &:hover {
-         background-color: white;
-         border-color: white;
+         &:hover {
+            background-color: #444;
 
-         .icon {
-            fill: black;
+            .icon {
+               fill: #dddddd;
+            }
          }
       }
    }
+}
 
-   .icon {
-      width: 16px;
-      height: 16px;
-      fill: white;
+.header {
+   border-bottom: 2px solid #000;
+   padding: 4px;
+   display: flex;
+   align-items: center;
+}
+
+.title {
+   width: 100%;
+   display: block;
+   text-align: center;
+   color: #8c8c8c;
+   cursor: move;
+}
+
+.buttonList {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+}
+
+.button {
+   width: 1.5rem;
+   height: 1.5rem;
+   border: 1px solid transparent;
+   border-radius: 48px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   cursor: pointer;
+
+   &:hover {
+      background-color: #4e4e4e;
+
+      .icon {
+         fill: #b6b6b6;
+      }
    }
+}
+
+.icon {
+   width: 16px;
+   height: 16px;
+   fill: #a2a2a2;
 }

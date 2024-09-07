@@ -49,15 +49,12 @@ export function AppHeader(props: PropsWithChildren<AppHeaderProps>) {
    return (
       <div
          style={{
-            minWidth: '250px',
-            minHeight: '300px',
             width: props.openApp.isMaximized ? '100%' : 250 + horizontalResizeInPx + 'px',
             height: props.openApp.isMaximized ? '100%' : 300 + verticalResizeInPx + 'px',
             display: props.openApp.isMinimized ? 'none' : 'flex',
             top: props.openApp.isMaximized ? 0 : randomTop + verticalDragInPx,
             left: props.openApp.isMaximized ? 0 : randomLeft + horizontalDragInPx,
             zIndex: props.openApp.zIndex,
-            backgroundColor: '#000',
          }}
          ref={appBorderRef}
          className={clsx(s.appHeader, {
@@ -69,17 +66,24 @@ export function AppHeader(props: PropsWithChildren<AppHeaderProps>) {
          <div className={s.header} ref={appHeaderRef}>
             <span className={s.title}>{props.openApp.name}</span>
 
-            <button type="button" className={s.button} onClick={handleMinimizeButtonClick}>
-               <DynamicIcon type={ICON_TYPE.UNDERSCORE} iconProps={{ className: s.icon }} />
-            </button>
+            <ul className={s.buttonList}>
+               <li>
+                  <button type="button" className={s.button} onClick={handleMinimizeButtonClick}>
+                     <DynamicIcon type={ICON_TYPE.UNDERSCORE} iconProps={{ className: s.icon }} />
+                  </button>
+               </li>
+               <li>
+                  <button type="button" className={s.button} onClick={handleMaximizeButtonClick}>
+                     <DynamicIcon type={ICON_TYPE.WINDOWS} iconProps={{ className: s.icon }} />
+                  </button>
+               </li>
 
-            <button type="button" className={s.button} onClick={handleMaximizeButtonClick}>
-               <DynamicIcon type={ICON_TYPE.WINDOWS} iconProps={{ className: s.icon }} />
-            </button>
-
-            <button type="button" className={s.button} onClick={handleCloseButtonClick}>
-               <DynamicIcon type={ICON_TYPE.CLOSE} iconProps={{ className: s.icon }} />
-            </button>
+               <li>
+                  <button type="button" className={s.button} onClick={handleCloseButtonClick}>
+                     <DynamicIcon type={ICON_TYPE.CLOSE} iconProps={{ className: s.icon }} />
+                  </button>
+               </li>
+            </ul>
          </div>
 
          {props.children}

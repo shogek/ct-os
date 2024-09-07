@@ -1,6 +1,6 @@
 import { memo } from 'react'
-import { openAppsAtom } from '../../atoms/opened-apps.atom'
 import { useAtomValue } from 'jotai'
+import { openAppsAtom } from '../../atoms/opened-apps.atom'
 import { CalculatorDynamic } from '../../features/calculator/calculator-dynamic.component'
 import { NotesDynamic } from '../../features/notes/notes-dynamic.component'
 import { APP_TYPE } from '../../general/types/app.types'

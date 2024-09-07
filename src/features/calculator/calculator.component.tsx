@@ -1,5 +1,5 @@
 import { useState, MouseEvent } from 'react'
-import { AppHeader } from '../../components/app-header/app-header.component'
+import { AppHeader } from '../../components/app-header/app-header'
 import { CalculatorProps } from './types'
 import s from './calculator.module.scss'
 

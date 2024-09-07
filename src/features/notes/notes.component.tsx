@@ -1,4 +1,4 @@
-import { AppHeader } from '../../components/app-header/app-header.component'
+import { AppHeader } from '../../components/app-header/app-header'
 import { NotesProps } from './types'
 import { NotesItem } from './notes-item'
 import s from './notes.module.scss'
